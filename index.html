@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Record Management System</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #001f3f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li {
+            display: inline-block;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            background-color: #004080;
+        }
+
+        .login-btn {
+            background-color: #00aaff;
+            padding: 8px 20px;
+            color: #fff;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #004080;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: url('images/background4.jpg') no-repeat center center/cover;
+            text-align: center;
+            padding: 230px 20px;
+            color: #fff;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Sections */
+        .section {
+            padding: 290px 20px; /* Adjusted padding to account for fixed navbar */
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #about {
+            background: url('images/background5.jpg') no-repeat center center/cover;
+        }
+
+        #services {
+            background: url('images/background1.jpg') no-repeat center center/cover;
+        }
+
+        #contact {
+            background: url('images/background3.jpg') no-repeat center center/cover;
+        }
+
+        #developers {
+            background: url('images/background2.jpg') no-repeat center center/cover;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #001f3f;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: #00aaff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+/* Developer Section */
+#developers {
+    background-color: #f0f8ff; /* Soft background for a clean look */
+    padding: 230px 20px;
+    text-align: center;
+}
+
+#developers h2 {
+    font-size: 36px; /* Increased font size for emphasis */
+    font-weight: bold;
+    color: #00aaff; /* Bright blue color */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+    animation: colorChange 3s ease-in-out infinite; /* Color-changing animation */
+}
+
+@keyframes colorChange {
+    0% {
+        color: #00aaff; /* Initial blue */
+    }
+    25% {
+        color: #ff6347; /* Tomato red */
+    }
+    50% {
+        color: #32cd32; /* Lime green */
+    }
+    75% {
+        color: #ffcc00; /* Golden yellow */
+    }
+    100% {
+        color: #00aaff; /* Back to blue */
+    }
+}
+
+.developer-card {
+    display: inline-block;
+    background: #2a3d66;
+    margin: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    padding: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.developer-card-image {
+    display: none; /* Hide the image initially */
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.developer-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid #00aaff;
+}
+
+.developer-card-content {
+    text-align: center;
+}
+
+.developer-card-content h3 {
+    margin: 15px 0;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.developer-card-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #ffcc00;
+}
+
+.developer-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+
+.developer-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid #00aaff;
+}
+
+.developer-card h3 {
+    margin: 15px 0;
+    font-size: 22px;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.developer-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #ffcc00;
+}
+
+/* Add subtle animations */
+.developer-card {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+        /* Popup Modal */
+.popup-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.popup-content img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.popup-content h3 {
+    margin-bottom: 10px;
+}
+
+.popup-content p {
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: #d32f2f;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="@Dilaw  - Uhaw (Tayong Lahat) (Lyrics).mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Police Records</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#developers">Developers</a></li>
+        </ul>
+        <button class="login-btn">Login</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <h1>Police Record Management System</h1>
+        <p>
+            A secure and efficient solution for managing police records. Simplifying workflows while ensuring data integrity.
+        </p>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <h2>About Us</h2>
+        <p>
+            The Police Record Management System is a dedicated platform designed to streamline the handling of police records,
+            from criminal investigations to traffic reports. Our goal is to provide a centralized, user-friendly, and secure system
+            to support law enforcement operations effectively.
+        </p>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <h2>Our Services</h2>
+        <p>
+            We offer a wide range of services to support police departments, including criminal record management, traffic violation tracking,
+            and real-time data access. Our platform is built with security and scalability in mind, ensuring it meets the needs of modern law enforcement agencies.
+        </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <h2>Contact Us</h2>
+        <p>
+            For more information about our system or to schedule a demonstration, reach out to us at:
+            <br>Email: support@policerecords.com | Phone: +1-800-555-1234
+        </p>
+    </section>
+
+<!-- Developer Section -->
+<section id="developers">
+    <h2>Meet Our Developers</h2>
+    <div class="developer-card" onclick="toggleCard('dev1')">
+        <div class="developer-card-content">
+            <img src="images/background1.jpg" alt="Developer 1">
+            <h3>Developer 1</h3>
+            <p>Lead Developer, ensuring robust system architecture and cutting-edge technology.</p>
+        </div>
+        <div class="developer-card-image">
+            <img src="images/background1.jpg" alt="Developer 1">
+        </div>
+    </div>
+    <div class="developer-card" onclick="toggleCard('dev2')">
+        <div class="developer-card-content">
+            <img src="images/background2.jpg" alt="Developer 2">
+            <h3>Developer 2</h3>
+            <p>Expert UI/UX Designer, crafting intuitive and user-friendly interfaces.</p>
+        </div>
+        <div class="developer-card-image">
+            <img src="images/background2.jpg" alt="Developer 2">
+        </div>
+    </div>
+    <div class="developer-card" onclick="toggleCard('dev3')">
+        <div class="developer-card-content">
+            <img src="images/background3.jpg" alt="Developer 3">
+            <h3>Developer 3</h3>
+            <p>Back-End Engineer, specialized in database design and system integration.</p>
+        </div>
+        <div class="developer-card-image">
+            <img src="images/background3.jpg" alt="Developer 3">
+        </div>
+    </div>
+</section>
+
+
+    <script>
+        function openPopup(devId) {
+    document.getElementById(`popup-${devId}`).style.display = 'flex';
+}
+
+function closePopup() {
+    const popups = document.querySelectorAll('.popup-modal');
+    popups.forEach(popup => popup.style.display = 'none');
+}
+
+function toggleCard(devId) {
+    const cardContent = document.querySelector(`#${devId} .developer-card-content`);
+    const cardImage = document.querySelector(`#${devId} .developer-card-image`);
+
+    // Toggle visibility of content and image
+    if (cardContent.style.display === 'none') {
+        cardContent.style.display = 'block';
+        cardImage.style.display = 'none';
+    } else {
+        cardContent.style.display = 'none';
+        cardImage.style.display = 'block';
+    }
+}
+
+
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Police Record Management System. Designed by <a href="https://www.facebook.com/search/top?q=armiejoy%20farofaldane">Farofaldane</a>.</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for Section Animations
+        const sections = document.querySelectorAll('.section');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
